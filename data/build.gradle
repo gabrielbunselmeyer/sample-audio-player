@@ -44,6 +44,7 @@ dependencies {
 
     implementation Dependencies.RETROFIT
     implementation Dependencies.RETROFIT_CONVERTER_SCALARS
+    implementation Dependencies.RETROFIT_GSON
     implementation Dependencies.LOGGING_INTERCEPTOR
     implementation Dependencies.COROUTINE_CORE
     implementation Dependencies.COROUTINE_ANDROID
