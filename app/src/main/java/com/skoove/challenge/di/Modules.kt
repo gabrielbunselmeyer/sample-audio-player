@@ -1,15 +1,14 @@
 package com.skoove.challenge.di
 
 import android.app.Application
+import com.skoove.challenge.ui.audiolist.AudioListViewModel
 import org.koin.android.ext.koin.androidContext
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.loadKoinModules
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
 
-/// This modules main DI configuration
 object Modules {
-
-    /// Main trigger to initializes this modules dependencies
     fun init(context: Application) {
         startKoin {
             androidContext(context)
@@ -19,7 +18,7 @@ object Modules {
         }
     }
 
-    /// Main declaration for this modules dependencies
     private val main = module {
+        viewModel { AudioListViewModel(application = get(), skooveRepository = get()) }
     }
 }

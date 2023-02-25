@@ -11,6 +11,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.skoove.challenge.data.response.AudioEntry
+import com.skoove.challenge.ui.audiolist.AudioListScreen
 import kotlinx.coroutines.InternalCoroutinesApi
 
 object Destinations {
@@ -37,7 +38,7 @@ fun MainNavGraph(
         startDestination = startDestination,
     ) {
         composable(Destinations.ALERT_LIST_ROUTE) {
-            Text("Placeholder for List View")
+            AudioListScreen()
         }
         composable(
             Destinations.AUDIO_DETAIL_ROUTE,
