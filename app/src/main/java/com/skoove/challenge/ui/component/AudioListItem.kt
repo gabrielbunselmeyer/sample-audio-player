@@ -1,4 +1,4 @@
-package com.skoove.challenge.component
+package com.skoove.challenge.ui.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border

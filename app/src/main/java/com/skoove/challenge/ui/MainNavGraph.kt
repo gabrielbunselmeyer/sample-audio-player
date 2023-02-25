@@ -25,24 +25,27 @@ object Destinations {
 @SuppressLint("UnrememberedGetBackStackEntry")
 @InternalCoroutinesApi
 @Composable
-fun MyNavGraph(navController: NavHostController = rememberNavController(),
-               startDestination: String = Destinations.ALERT_LIST_ROUTE) {
+fun MainNavGraph(
+    navController: NavHostController = rememberNavController(),
+    startDestination: String = Destinations.ALERT_LIST_ROUTE
+) {
 
     val actions = remember(navController) { MainActions(navController) }
 
     NavHost(
-            navController = navController,
-            startDestination = startDestination,
+        navController = navController,
+        startDestination = startDestination,
     ) {
         composable(Destinations.ALERT_LIST_ROUTE) {
             Text("Placeholder for List View")
         }
-        composable(Destinations.AUDIO_DETAIL_ROUTE,
-                   arguments = listOf(
-                           navArgument(Destinations.Arguments.AUDIO) {
-                               nullable = true
-                               type = NavType.ParcelableType(AudioEntry::class.java)
-                           })) {
+        composable(
+            Destinations.AUDIO_DETAIL_ROUTE,
+            arguments = listOf(navArgument(Destinations.Arguments.AUDIO) {
+                nullable = true
+                type = NavType.ParcelableType(AudioEntry::class.java)
+            })
+        ) {
             Text("Placeholder for Detail Screen")
         }
     }
@@ -59,6 +62,4 @@ class MainActions(navController: NavHostController) {
         }
         navController.navigate(Destinations.AUDIO_DETAIL_ROUTE)
     }
-
 }
-
