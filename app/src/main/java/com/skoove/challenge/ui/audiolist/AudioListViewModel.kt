@@ -5,7 +5,7 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.skoove.challenge.data.Repository
-import com.skoove.challenge.data.response.AudioEntry
+import com.skoove.challenge.data.response.AudioModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 
@@ -30,7 +30,7 @@ class AudioListViewModel(application: Application, private val skooveRepository:
 
     private fun fetchAudioEntries() {
         viewModelScope.launch(repositoryCoroutinesExceptionHandler) {
-            val audioEntries = mutableListOf<AudioEntry>()
+            val audioEntries = mutableListOf<AudioModel>()
 
             val test = skooveRepository.getAudioEntries().data
             Log.d("MAINVIEWMODEL_ERROR", test.toString())

@@ -14,7 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.skoove.challenge.R
-import com.skoove.challenge.data.response.AudioEntry
+import com.skoove.challenge.data.response.AudioModel
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.coil.CoilImage
 
@@ -23,7 +23,7 @@ import com.skydoves.landscapist.coil.CoilImage
  */
 @Composable
 fun AudioListItem(
-    audio: AudioEntry,
+    audio: AudioModel,
     rating: Int = 3,
     isFavorite: Boolean = false,
     onFavoriteClicked: (newState: Boolean) -> Unit,

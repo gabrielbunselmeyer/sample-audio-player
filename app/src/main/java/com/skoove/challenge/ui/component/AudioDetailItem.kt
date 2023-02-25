@@ -18,7 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.skoove.challenge.R
-import com.skoove.challenge.data.response.AudioEntry
+import com.skoove.challenge.data.response.AudioModel
 import com.skoove.challenge.ui.MediaPlayerController
 import com.skoove.challenge.utils.extension.timeStampToDuration
 import com.skydoves.landscapist.ShimmerParams
@@ -29,7 +29,7 @@ import com.skydoves.landscapist.coil.CoilImage
  */
 @Composable
 fun AudioDetailItem(
-    audio: AudioEntry,
+    audio: AudioModel,
     mediaPlayer: MediaPlayerController,
     isAudioPlaying: Boolean,
     isFavorite: Boolean,

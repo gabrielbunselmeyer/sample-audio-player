@@ -10,7 +10,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.skoove.challenge.data.response.AudioEntry
+import com.skoove.challenge.data.response.AudioModel
 import com.skoove.challenge.ui.audiolist.AudioListScreen
 import kotlinx.coroutines.InternalCoroutinesApi
 
@@ -44,7 +44,7 @@ fun MainNavGraph(
             Destinations.AUDIO_DETAIL_ROUTE,
             arguments = listOf(navArgument(Destinations.Arguments.AUDIO) {
                 nullable = true
-                type = NavType.ParcelableType(AudioEntry::class.java)
+                type = NavType.ParcelableType(AudioModel::class.java)
             })
         ) {
             Text("Placeholder for Detail Screen")
@@ -57,7 +57,7 @@ fun MainNavGraph(
  */
 class MainActions(navController: NavHostController) {
 
-    val navigateToAudioDetail: (audio: AudioEntry) -> Unit = { audio ->
+    val navigateToAudioDetail: (audio: AudioModel) -> Unit = { audio ->
         navController.currentBackStackEntry?.savedStateHandle?.apply {
             set(Destinations.Arguments.AUDIO, audio)
         }

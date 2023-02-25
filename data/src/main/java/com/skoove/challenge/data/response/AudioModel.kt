@@ -9,7 +9,7 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 @Parcelize
-data class AudioEntry(
+data class AudioModel(
     val title: String,
     val audio: String,
     val cover: String,
