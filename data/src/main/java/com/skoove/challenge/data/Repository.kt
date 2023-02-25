@@ -1,7 +1,7 @@
 package com.skoove.challenge.data
 
 import com.skoove.challenge.data.response.ApiResponse
-import com.skoove.challenge.domain.model.ManifestModel
+import com.skoove.challenge.data.response.ManifestModel
 import retrofit2.Retrofit
 import retrofit2.http.GET
 

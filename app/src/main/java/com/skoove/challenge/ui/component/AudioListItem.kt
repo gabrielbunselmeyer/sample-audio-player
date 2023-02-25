@@ -22,11 +22,13 @@ import com.skydoves.landscapist.coil.CoilImage
  * Audio item for the overview list
  */
 @Composable
-fun AudioListItem(audio: AudioEntry,
-                  rating: Int = 3,
-                  isFavorite: Boolean = false,
-                  onFavoriteClicked: (newState: Boolean) -> Unit,
-                  onItemClicked: () -> Unit) {
+fun AudioListItem(
+    audio: AudioEntry,
+    rating: Int = 3,
+    isFavorite: Boolean = false,
+    onFavoriteClicked: (newState: Boolean) -> Unit,
+    onItemClicked: () -> Unit
+) {
 
 
     Column(modifier = Modifier
@@ -35,49 +37,52 @@ fun AudioListItem(audio: AudioEntry,
         .background(MaterialTheme.colors.surface)
         .clickable {
             onItemClicked()
-        }
-    ) {
+        }) {
 
         Box {
 
             // Cover image
-            CoilImage(imageModel = audio.cover,
-                      contentDescription = stringResource(id = R.string.contentDescription_audio_cover),
-                      shimmerParams = ShimmerParams(
-                              baseColor = MaterialTheme.colors.background,
-                              highlightColor = MaterialTheme.colors.surface
-                      ),
-                      contentScale = ContentScale.Crop,
-                      modifier = Modifier
-                          .aspectRatio(3f / 2f)
-                          .fillMaxWidth())
+            CoilImage(
+                imageModel = audio.cover,
+                contentDescription = stringResource(id = R.string.contentDescription_audio_cover),
+                shimmerParams = ShimmerParams(
+                    baseColor = MaterialTheme.colors.background,
+                    highlightColor = MaterialTheme.colors.surface
+                ),
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .aspectRatio(3f / 2f)
+                    .fillMaxWidth()
+            )
 
             // Rating element
             RatingStars(modifier = Modifier.padding(8.dp), rating, onStarClicked = {})
         }
 
         // Title and favorite section
-        Row(modifier = Modifier
-            .fillMaxWidth(0.65f)
-            .align(Alignment.End)
-            .padding(horizontal = 8.dp)
-            .heightIn(64.dp),
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(0.65f)
+                .align(Alignment.End)
+                .padding(horizontal = 8.dp)
+                .heightIn(64.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
 
             // Title
-            Text(modifier = Modifier
-                .wrapContentWidth(),
-                 textAlign = TextAlign.Center,
-                 text = audio.title.toString(),
-                 color = MaterialTheme.colors.onSurface)
+            Text(
+                modifier = Modifier.wrapContentWidth(),
+                textAlign = TextAlign.Center,
+                text = audio.title.toString(),
+                color = MaterialTheme.colors.onSurface
+            )
 
             // Favorite Heart
-            FavoriteElement(modifier = Modifier,
-                            favoriteState = isFavorite,
-                            onClick = { onFavoriteClicked(it) })
+            FavoriteElement(
+                modifier = Modifier,
+                favoriteState = isFavorite,
+                onClick = { onFavoriteClicked(it) })
         }
     }
 }
-
