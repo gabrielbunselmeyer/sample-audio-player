@@ -38,7 +38,7 @@ fun MainNavGraph(
         startDestination = startDestination,
     ) {
         composable(Destinations.ALERT_LIST_ROUTE) {
-            AudioListScreen()
+            AudioListScreen(navigateToAudioDetail = { actions.navigateToAudioDetail(it) })
         }
         composable(
             Destinations.AUDIO_DETAIL_ROUTE,

@@ -21,12 +21,21 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun AudioListScreen(audioListViewModel: AudioListViewModel = koinViewModel()) {
-    AudioList(audioListViewModel.audioEntries, audioListViewModel::dispatch)
+fun AudioListScreen(
+    navigateToAudioDetail: (audio: AudioModel) -> Unit,
+    audioListViewModel: AudioListViewModel = koinViewModel()
+) {
+    AudioList(
+        navigateToAudioDetail, audioListViewModel.audioEntries, audioListViewModel::dispatch
+    )
 }
 
 @Composable
-fun AudioList(audioEntriesObservable: LiveData<List<AudioModel>>, dispatcher: AudioListDispatcher) {
+fun AudioList(
+    navigateToAudioDetail: (audio: AudioModel) -> Unit,
+    audioEntriesObservable: LiveData<List<AudioModel>>,
+    dispatcher: AudioListDispatcher
+) {
 
     val audioEntries = audioEntriesObservable.observeAsState()
 
@@ -60,7 +69,9 @@ fun AudioList(audioEntriesObservable: LiveData<List<AudioModel>>, dispatcher: Au
             items(
                 items = audioEntries.value ?: emptyList(),
             ) { item ->
-                AudioListItem(audio = item, onItemClicked = {}, onFavoriteClicked = {})
+                AudioListItem(audio = item,
+                    onItemClicked = { navigateToAudioDetail(item) },
+                    onFavoriteClicked = {})
             }
         }
 
