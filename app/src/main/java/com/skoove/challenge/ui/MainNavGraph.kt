@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -52,13 +53,14 @@ fun MainNavGraph(
          * we'd need a workaround on top of a workaround.
          */
         composable(
-            "${Destinations.AUDIO_DETAIL_ROUTE}/{audioTitle}",
+            "${Destinations.AUDIO_DETAIL_ROUTE}/{${Destinations.Arguments.AUDIO_TITLE}}",
             arguments = listOf(navArgument(Destinations.Arguments.AUDIO_TITLE) {
-                defaultValue = ""
-                nullable = true
+                type = NavType.StringType
             })
         ) {
-            AudioDetailScreen()
+            AudioDetailScreen(
+                audioTitle = it.arguments?.getString(Destinations.Arguments.AUDIO_TITLE) ?: ""
+            )
         }
 
     }

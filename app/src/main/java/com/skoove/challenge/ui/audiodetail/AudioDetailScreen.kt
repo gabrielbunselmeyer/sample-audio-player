@@ -4,11 +4,12 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 
 @Composable
-fun AudioDetailScreen() {
+fun AudioDetailScreen(audioTitle: String) {
+    Text("title: $audioTitle")
     AudioDetail()
 }
 
 @Composable
 private fun AudioDetail() {
-    Text("AudioDetail")
+//    Text("AudioDetail")
 }
