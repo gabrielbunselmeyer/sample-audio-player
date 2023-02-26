@@ -9,11 +9,9 @@ import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.lifecycle.LiveData
 import com.skoove.challenge.data.response.AudioModel
 import com.skoove.challenge.ui.component.AudioListItem
 import kotlinx.coroutines.delay
@@ -26,19 +24,18 @@ fun AudioListScreen(
     audioListViewModel: AudioListViewModel = koinViewModel()
 ) {
     AudioList(
-        navigateToAudioDetail, audioListViewModel.audioEntries, audioListViewModel::dispatch
+        navigateToAudioDetail,
+        audioListViewModel.state.collectAsState(),
+        audioListViewModel::dispatch
     )
 }
 
 @Composable
 fun AudioList(
     navigateToAudioDetail: (audio: AudioModel) -> Unit,
-    audioEntriesObservable: LiveData<List<AudioModel>>,
+    state: State<com.skoove.challenge.ui.State>,
     dispatcher: AudioListDispatcher
 ) {
-
-    val audioEntries = audioEntriesObservable.observeAsState()
-
     val refreshScope = rememberCoroutineScope()
     var refreshing by remember { mutableStateOf(false) }
     fun refresh() = refreshScope.launch {
@@ -67,11 +64,13 @@ fun AudioList(
                 )
         ) {
             items(
-                items = audioEntries.value ?: emptyList(),
+                items = state.value.audioEntries,
             ) { item ->
                 AudioListItem(audio = item,
                     onItemClicked = { navigateToAudioDetail(item) },
-                    onFavoriteClicked = {})
+                    onFavoriteClicked = { addedAsFavorite ->
+                        dispatcher(AudioListActions.UpdateFavoriteAudio(if (addedAsFavorite) item.title else ""))
+                    })
             }
         }
 

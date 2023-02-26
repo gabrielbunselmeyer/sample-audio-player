@@ -3,20 +3,21 @@ package com.skoove.challenge.ui.audiolist
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.skoove.challenge.data.Repository
-import com.skoove.challenge.data.response.AudioModel
+import com.skoove.challenge.ui.State
+import com.skoove.challenge.utils.extension.mutate
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class AudioListViewModel(application: Application, private val skooveRepository: Repository) :
-    AndroidViewModel(application) {
+class AudioListViewModel(
+    application: Application, private val skooveRepository: Repository, state: State
+) : AndroidViewModel(application) {
 
-    private val _audioEntries = MutableLiveData<List<AudioModel>>()
-    val audioEntries: LiveData<List<AudioModel>>
-        get() = _audioEntries
+    private val mutableState = MutableStateFlow(state)
+    val state = mutableState.asStateFlow()
 
     private val repositoryCoroutinesExceptionHandler = CoroutineExceptionHandler { _, throwable ->
         val errorMessage = "Something went wrong when fetching from the GitHub API!"
@@ -28,21 +29,25 @@ class AudioListViewModel(application: Application, private val skooveRepository:
 
     fun dispatch(action: AudioListActions) {
         when (action) {
-            is AudioListActions.FetchAudioEntries -> {
-                fetchAudioEntries()
-            }
+            is AudioListActions.FetchAudioEntries -> { fetchAudioEntries() }
+            is AudioListActions.UpdateFavoriteAudio -> mutableState.mutate { copy(favoriteAudioTitle = action.title) }
         }
     }
 
     private fun fetchAudioEntries() {
         viewModelScope.launch(repositoryCoroutinesExceptionHandler) {
-            _audioEntries.value = skooveRepository.getAudioEntries().data?.data
+            skooveRepository.getAudioEntries().data?.data?.let {
+                mutableState.mutate {
+                    copy(audioEntries = it)
+                }
+            }
         }
     }
 }
 
 sealed class AudioListActions {
     object FetchAudioEntries : AudioListActions()
+    data class UpdateFavoriteAudio(val title: String) : AudioListActions()
 }
 
 typealias AudioListDispatcher = (AudioListActions) -> Unit
