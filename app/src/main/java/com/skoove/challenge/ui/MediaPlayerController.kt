@@ -28,7 +28,7 @@ abstract class MediaPlayerController : ViewModel() {
     /**
      * Media player click handler
      */
-    fun audioSelected(url: String) {
+    protected fun audioSelected(url: String) {
         when (mediaPlayerState.value) {
             MediaPlayerState.Started -> pauseMediaPlayer()
             MediaPlayerState.Paused, MediaPlayerState.Initialized, MediaPlayerState.Finished -> startMediaPlayer()
@@ -41,7 +41,7 @@ abstract class MediaPlayerController : ViewModel() {
     /**
      * Initialize media player with given url
      */
-    private fun initializeMediaPlayer(url: String) {
+    protected fun initializeMediaPlayer(url: String) {
         try {
             mediaPlayer.setAudioAttributes(attributes)
             mediaPlayer.setDataSource(url)
@@ -55,7 +55,7 @@ abstract class MediaPlayerController : ViewModel() {
     /**
      * Start media player
      */
-    private fun startMediaPlayer() {
+    protected fun startMediaPlayer() {
         try {
             mediaPlayer.start()
             _mediaPlayerState.update { MediaPlayerState.Started }
@@ -67,7 +67,7 @@ abstract class MediaPlayerController : ViewModel() {
     /**
      * Pause media player
      */
-    private fun pauseMediaPlayer() {
+    protected fun pauseMediaPlayer() {
         if (mediaPlayer.isPlaying) {
             mediaPlayer.pause()
             _mediaPlayerState.update { MediaPlayerState.Paused }
@@ -78,7 +78,7 @@ abstract class MediaPlayerController : ViewModel() {
     /**
      * Release media player
      */
-    fun releaseMediaPlayer() {
+    protected fun releaseMediaPlayer() {
         mediaPlayer.stop()
         mediaPlayer.release()
         _mediaPlayerState.update { MediaPlayerState.None }
@@ -88,7 +88,7 @@ abstract class MediaPlayerController : ViewModel() {
     /**
      * Seek to new position
      */
-    fun seekMediaPlayer(newPosition: Int) {
+    protected fun seekMediaPlayer(newPosition: Int) {
         mediaPlayer.seekTo(newPosition)
     }
 }

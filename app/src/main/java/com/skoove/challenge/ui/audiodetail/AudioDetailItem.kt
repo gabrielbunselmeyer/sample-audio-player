@@ -19,7 +19,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.skoove.challenge.R
 import com.skoove.challenge.data.response.AudioModel
-import com.skoove.challenge.ui.MediaPlayerController
 import com.skoove.challenge.utils.extension.timeStampToDuration
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.coil.CoilImage
@@ -30,15 +29,16 @@ import com.skydoves.landscapist.coil.CoilImage
 @Composable
 fun AudioDetailItem(
     audio: AudioModel,
-    mediaPlayer: MediaPlayerController,
     isAudioPlaying: Boolean,
     isFavorite: Boolean,
     playingTime: Float,
     duration: Int,
     rating: Int,
     onStarClicked: (rating: Int) -> Unit,
+    onFavoriteClicked: (favorite: Boolean) -> Unit,
+    onAudioSelected: (source: String) -> Unit,
     onSliderValueChanged: (value: Float) -> Unit,
-    onFavoriteClicked: (favorite: Boolean) -> Unit
+    updateMediaTime: (updatedTime: Int) -> Unit
 ) {
 
     Column(
@@ -52,7 +52,7 @@ fun AudioDetailItem(
                     interactionSource = remember { MutableInteractionSource() },
                     indication = null
                 ) {
-                    mediaPlayer.audioSelected(audio.audio)
+                    onAudioSelected(audio.audio)
                 },
             contentAlignment = Alignment.Center
         ) {
@@ -108,7 +108,7 @@ fun AudioDetailItem(
             },
             valueRange = 0f..duration.toFloat(),
             onValueChangeFinished = {
-                mediaPlayer.seekMediaPlayer((playingTime * 1000).toInt())
+                updateMediaTime((playingTime * 1000).toInt())
             },
             steps = 1000,
             colors = SliderDefaults.colors(
