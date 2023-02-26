@@ -91,7 +91,6 @@ dependencies {
     implementation Dependencies.STARTUP
     implementation Dependencies.COROUTINE_CORE
     implementation Dependencies.COROUTINE_ANDROID
-    implementation Dependencies.LIFECYCLE_LIVEDATA
     implementation Dependencies.LIFECYCLE_VIEWMODEL
     implementation Dependencies.LIFECYCLE_SAVEDSTATE
     implementation Dependencies.LIFECYCLE_VIEWMODEL_COMPOSE

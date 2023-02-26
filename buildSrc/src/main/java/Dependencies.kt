@@ -12,7 +12,6 @@ object Dependencies {
     const val COROUTINE_CORE = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Version.COROUTINE}"
     const val COROUTINE_ANDROID =
         "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Version.COROUTINE}"
-    const val LIFECYCLE_LIVEDATA = "androidx.lifecycle:lifecycle-livedata-ktx:${Version.LIFECYCLE}"
     const val LIFECYCLE_VIEWMODEL =
         "androidx.lifecycle:lifecycle-viewmodel-ktx:${Version.LIFECYCLE}"
     const val LIFECYCLE_SAVEDSTATE =

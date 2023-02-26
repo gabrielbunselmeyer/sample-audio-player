@@ -31,7 +31,7 @@ fun AudioListScreen(
 }
 
 @Composable
-fun AudioList(
+private fun AudioList(
     navigateToAudioDetail: (audio: AudioModel) -> Unit,
     state: State<com.skoove.challenge.ui.State>,
     dispatcher: AudioListDispatcher
@@ -66,7 +66,9 @@ fun AudioList(
             items(
                 items = state.value.audioEntries,
             ) { item ->
+
                 AudioListItem(audio = item,
+                    isFavorite = state.value.favoriteAudioTitle == item.title,
                     onItemClicked = { navigateToAudioDetail(item) },
                     onFavoriteClicked = { addedAsFavorite ->
                         dispatcher(AudioListActions.UpdateFavoriteAudio(if (addedAsFavorite) item.title else ""))
