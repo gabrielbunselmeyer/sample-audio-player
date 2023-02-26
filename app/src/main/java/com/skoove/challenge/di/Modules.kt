@@ -4,6 +4,7 @@ import android.app.Application
 import com.skoove.challenge.ui.State
 import com.skoove.challenge.ui.audiodetail.AudioDetailViewModel
 import com.skoove.challenge.ui.audiolist.AudioListViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.loadKoinModules
@@ -21,9 +22,9 @@ object Modules {
     }
 
     private val main = module {
-        single { State() }
+        single { MutableStateFlow(State()) }
 
-        viewModel { AudioListViewModel(application = get(), skooveRepository = get(), state = get()) }
-        viewModel { AudioDetailViewModel(state = get()) }
+        viewModel { AudioListViewModel(application = get(), skooveRepository = get(), mutableState = get()) }
+        viewModel { AudioDetailViewModel(mutableState = get()) }
     }
 }

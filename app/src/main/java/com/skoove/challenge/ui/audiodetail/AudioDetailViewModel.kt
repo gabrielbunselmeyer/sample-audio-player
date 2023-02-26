@@ -7,10 +7,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 class AudioDetailViewModel(
-    state: State
+    private val mutableState: MutableStateFlow<State>
 ) : MediaPlayerController() {
 
-    private val mutableState = MutableStateFlow(state)
     val state = mutableState.asStateFlow()
 
     fun dispatch(action: AudioDetailActions) {

@@ -14,10 +14,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class AudioListViewModel(
-    application: Application, private val skooveRepository: Repository, state: State
+    application: Application, private val skooveRepository: Repository, private val mutableState: MutableStateFlow<State>
 ) : AndroidViewModel(application) {
 
-    private val mutableState = MutableStateFlow(state)
     val state = mutableState.asStateFlow()
 
     private val repositoryCoroutinesExceptionHandler = CoroutineExceptionHandler { _, throwable ->
@@ -29,7 +28,6 @@ class AudioListViewModel(
     }
 
     fun dispatch(action: AudioListActions) {
-        val state = state.value
         when (action) {
             is AudioListActions.FetchAudioEntries -> { fetchAudioEntries() }
             is AudioListActions.UpdateFavoriteAudio -> mutableState.mutate { copy(favoriteAudioTitle = action.title) }

@@ -25,7 +25,7 @@ private fun AudioDetail(
     mediaPlayerState: State<MediaPlayerState>,
     dispatcher: AudioDetailDispatcher
 ) {
-    val test = uiState.value.audioEntries
+
     val audioEntry = uiState.value.audioEntries.firstOrNull { audio -> audio.title == audioTitle }
         ?: throw Exception()
 
