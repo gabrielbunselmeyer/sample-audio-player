@@ -1,4 +1,4 @@
-package com.skoove.challenge.ui.component
+package com.skoove.challenge.ui.audiodetail
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -19,7 +19,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.skoove.challenge.R
 import com.skoove.challenge.data.response.AudioModel
-import com.skoove.challenge.ui.audiodetail.MediaPlayerState
+import com.skoove.challenge.ui.component.FavoriteElement
+import com.skoove.challenge.ui.component.RatingStars
 import com.skoove.challenge.utils.extension.timeStampToDuration
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.coil.CoilImage

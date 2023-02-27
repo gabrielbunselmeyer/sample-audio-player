@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
-import com.skoove.challenge.ui.component.AudioDetailItem
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -38,6 +37,7 @@ private fun AudioDetail(
         dispatcher(AudioDetailActions.InitializeMediaPlayer(audioEntry.source))
     }
 
+    // Way too many parameters; should eventually move to some sort of data object.
     AudioDetailItem(
         audioEntry = audioEntry,
         mediaPlayerState = mediaPlayerState,

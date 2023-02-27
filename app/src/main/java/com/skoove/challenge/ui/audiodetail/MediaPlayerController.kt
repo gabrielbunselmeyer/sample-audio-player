@@ -46,6 +46,9 @@ abstract class MediaPlayerController : ViewModel() {
         try {
             mediaPlayer.setAudioAttributes(attributes)
             mediaPlayer.setDataSource(url)
+
+            // mediaPlayer.prepare is a VERY heavy, main thread blocking operation.
+            // prepareAsync is also heavy, but at least doesn't block anything.
             mediaPlayer.prepareAsync()
         } catch (e: Exception) {
             e.printStackTrace()

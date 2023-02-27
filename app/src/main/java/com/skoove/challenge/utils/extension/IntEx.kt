@@ -3,7 +3,7 @@ package com.skoove.challenge.utils.extension
 import kotlin.math.floor
 
 /**
- * Convert Int number to minutes and seconds
+ * Convert Int number to minutes and seconds.
  */
 fun Int.timeStampToDuration(): String {
     val totalSeconds = floor(this * 1000 / 1E3).toInt()

@@ -8,6 +8,7 @@ import retrofit2.http.GET
 class Repository(private val retrofit: Retrofit) {
 
     private val skooveAPI = retrofit.create(SkooveAPI::class.java)
+
     suspend fun getAudioEntries(): ApiResponse<ManifestModel> =
         ApiResponse(data = skooveAPI.getManifest())
 }

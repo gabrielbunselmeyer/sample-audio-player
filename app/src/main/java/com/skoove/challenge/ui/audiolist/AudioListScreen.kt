@@ -15,6 +15,14 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
+/**
+ * Screen for listing all the [com.skoove.challenge.data.response.AudioModel] entries.
+ *
+ * Sets up a basic state observable and retains all contact with the [com.skoove.challenge.ui.audiolist.AudioListViewModel],
+ * only passing its dispatcher method downstream.
+ *
+ * Navigation could probably be handled in a neater way, but so is life in the default Jetpack Compose nav library.
+ */
 @Composable
 fun AudioListScreen(
     navigateToAudioDetail: (audio: AudioModel) -> Unit,
@@ -34,6 +42,7 @@ private fun AudioList(
     dispatcher: AudioListDispatcher
 ) {
 
+    // Boilerplate for handling the pull refresh for the LazyColumn down below.
     val refreshScope = rememberCoroutineScope()
     var refreshing by remember { mutableStateOf(false) }
     fun refresh() = refreshScope.launch {
@@ -65,6 +74,7 @@ private fun AudioList(
                 items = state.value.audioEntries,
             ) { item ->
 
+                // Getting to a parameter number where we should probably move to some sort of data object.
                 AudioListItem(audioEntry = item,
                     rating = state.value.audioRatings[item.title] ?: 0,
                     isFavorite = state.value.favoriteAudioTitle == item.title,

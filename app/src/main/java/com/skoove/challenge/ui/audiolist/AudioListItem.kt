@@ -33,7 +33,6 @@ fun AudioListItem(
     onStarClicked: (rating: Int) -> Unit,
 ) {
 
-
     Column(modifier = Modifier
         .padding(horizontal = 16.dp, vertical = 8.dp)
         .border(1.dp, MaterialTheme.colors.onBackground)
