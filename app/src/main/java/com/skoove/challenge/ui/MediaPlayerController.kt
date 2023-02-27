@@ -2,6 +2,7 @@ package com.skoove.challenge.ui
 
 import android.media.AudioAttributes
 import android.media.MediaPlayer
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
@@ -17,14 +18,18 @@ abstract class MediaPlayerController : ViewModel() {
     val mediaPlayerState = _mediaPlayerState.asStateFlow()
 
     val mediaPlayerCurrentTime: Flow<Int> = flow {
-        while (mediaPlayerState.value != MediaPlayerState.Finished) {
+        while (true) {
             if (mediaPlayerState.value == MediaPlayerState.None) {
                 emit(0)
             } else {
-                emit(mediaPlayer.currentPosition)
+                // For some reason currentPosition returns a wrong value at some point. At my wits end with this one.
+                // https://stackoverflow.com/questions/43187087/android-mediaplayer-getcurrentposition-returns-incorrect-values
+                val currentPos = mediaPlayer.currentPosition
+                Log.d("MediaPlayerController", "Emitting currentPosition: $currentPos")
+                emit(currentPos)
             }
 
-            delay(100)
+            delay(50)
         }
     }
 

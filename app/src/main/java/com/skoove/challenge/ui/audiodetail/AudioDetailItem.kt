@@ -6,7 +6,9 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -18,7 +20,6 @@ import androidx.compose.ui.unit.dp
 import com.skoove.challenge.R
 import com.skoove.challenge.data.response.AudioModel
 import com.skoove.challenge.ui.MediaPlayerState
-import com.skoove.challenge.utils.extension.timeStampToDuration
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.coil.CoilImage
 
@@ -104,8 +105,9 @@ fun AudioDetailItem(
             modifier = Modifier.wrapContentWidth(),
             textAlign = TextAlign.Center,
             text = "${
-                mediaPlayerCurrentTime.value.timeStampToDuration()
-            } / ${audioEntry.totalDurationMs.timeStampToDuration()}",
+                mediaPlayerCurrentTime.value
+//                        mediaPlayerCurrentTime.value.timeStampToDuration()
+            } / ${audioEntry.totalDurationMs}",
             color = MaterialTheme.colors.onSurface
         )
 
