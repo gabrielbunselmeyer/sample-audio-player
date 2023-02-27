@@ -15,7 +15,6 @@ object Modules {
     fun init(context: Application) {
         startKoin {
             androidContext(context)
-            loadKoinModules(com.skoove.challenge.domain.di.Modules.common)
             loadKoinModules(com.skoove.challenge.data.di.Modules.common)
             loadKoinModules(main)
         }

@@ -10,5 +10,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Skoove Code Challenge"
 include ':app'
-include ':domain'
 include ':data'

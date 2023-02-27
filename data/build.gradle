@@ -61,6 +61,4 @@ dependencies {
     androidTestImplementation Dependencies.MOCKK_ANDROID
     androidTestImplementation Dependencies.MOCK_WEBSERVER
     androidTestImplementation Dependencies.KOTLINX_COROUTINES_TEST
-
-    api(project(":domain"))
 }
