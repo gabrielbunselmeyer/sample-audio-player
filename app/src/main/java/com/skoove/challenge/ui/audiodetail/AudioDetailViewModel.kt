@@ -20,13 +20,8 @@ class AudioDetailViewModel(
                 )
             }
 
-            is AudioDetailActions.InitializeMediaPlayer -> {
-                initializeMediaPlayer(action.source)
-            }
-
-            AudioDetailActions.AudioPressed -> {
-                audioPressed()
-            }
+            is AudioDetailActions.InitializeMediaPlayer -> initializeMediaPlayer(action.source)
+            AudioDetailActions.AudioControlClicked -> audioControlClicked()
         }
     }
 
@@ -35,7 +30,7 @@ class AudioDetailViewModel(
 sealed class AudioDetailActions {
     data class UpdateFavoriteAudio(val title: String) : AudioDetailActions()
     data class InitializeMediaPlayer(val source: String) : AudioDetailActions()
-    object AudioPressed : AudioDetailActions()
+    object AudioControlClicked : AudioDetailActions()
 }
 
 typealias AudioDetailDispatcher = (AudioDetailActions) -> Unit

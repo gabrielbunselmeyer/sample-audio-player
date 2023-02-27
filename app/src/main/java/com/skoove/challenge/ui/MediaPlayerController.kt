@@ -36,7 +36,7 @@ abstract class MediaPlayerController : ViewModel() {
         }
     }
 
-    protected fun audioPressed() {
+    protected fun audioControlClicked() {
         when (mediaPlayerState.value) {
             MediaPlayerState.Playing -> pauseAudio()
             MediaPlayerState.Paused, MediaPlayerState.Prepared, MediaPlayerState.Finished -> playAudio()

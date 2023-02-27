@@ -7,7 +7,6 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -36,15 +35,10 @@ fun AudioDetailItem(
     rating: Int,
     onStarClicked: (rating: Int) -> Unit,
     onFavoriteClicked: (favorite: Boolean) -> Unit,
-    onAudioSelected: (source: String) -> Unit,
+    onAudioControlClicked: (source: String) -> Unit,
     onSliderValueChanged: (value: Float) -> Unit,
     updateMediaTime: (updatedTime: Int) -> Unit
 ) {
-
-    // We only want this to launch once.
-    LaunchedEffect(true) {
-        onAudioSelected(audioEntry.source)
-    }
 
     val isAudioPlaying = mediaPlayerState.value == MediaPlayerState.Playing
     val isMediaPlayerLoading = mediaPlayerState.value == MediaPlayerState.None
@@ -60,7 +54,7 @@ fun AudioDetailItem(
             modifier = Modifier.clickable(
                 interactionSource = remember { MutableInteractionSource() }, indication = null
             ) {
-                onAudioSelected(audioEntry.source)
+                onAudioControlClicked(audioEntry.source)
             },
         ) {
 
