@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
-import com.skoove.challenge.ui.MediaPlayerState
 import com.skoove.challenge.ui.component.AudioDetailItem
 import org.koin.androidx.compose.koinViewModel
 

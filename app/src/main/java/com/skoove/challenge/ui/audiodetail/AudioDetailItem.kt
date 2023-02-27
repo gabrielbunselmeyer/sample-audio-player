@@ -19,7 +19,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.skoove.challenge.R
 import com.skoove.challenge.data.response.AudioModel
-import com.skoove.challenge.ui.MediaPlayerState
+import com.skoove.challenge.ui.audiodetail.MediaPlayerState
+import com.skoove.challenge.utils.extension.timeStampToDuration
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.coil.CoilImage
 
@@ -88,7 +89,7 @@ fun AudioDetailItem(
             if (isMediaPlayerLoading) {
                 Box(
                     modifier = Modifier
-                        .background(Color.Red)
+                        .background(Color.LightGray.copy(alpha = .8f))
                         .matchParentSize()
                 )
 
@@ -105,9 +106,8 @@ fun AudioDetailItem(
             modifier = Modifier.wrapContentWidth(),
             textAlign = TextAlign.Center,
             text = "${
-                mediaPlayerCurrentTime.value
-//                        mediaPlayerCurrentTime.value.timeStampToDuration()
-            } / ${audioEntry.totalDurationMs}",
+                mediaPlayerCurrentTime.value.timeStampToDuration()
+            } / ${audioEntry.totalDurationMs.timeStampToDuration()}",
             color = MaterialTheme.colors.onSurface
         )
 

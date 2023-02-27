@@ -1,6 +1,5 @@
 package com.skoove.challenge.ui.audiodetail
 
-import com.skoove.challenge.ui.MediaPlayerController
 import com.skoove.challenge.ui.State
 import com.skoove.challenge.utils.extension.mutate
 import kotlinx.coroutines.flow.MutableStateFlow

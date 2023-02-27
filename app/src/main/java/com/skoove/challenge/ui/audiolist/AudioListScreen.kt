@@ -1,6 +1,5 @@
 package com.skoove.challenge.ui.audiolist
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
@@ -11,7 +10,6 @@ import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import com.skoove.challenge.data.response.AudioModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -35,6 +33,7 @@ private fun AudioList(
     state: State<com.skoove.challenge.ui.State>,
     dispatcher: AudioListDispatcher
 ) {
+
     val refreshScope = rememberCoroutineScope()
     var refreshing by remember { mutableStateOf(false) }
     fun refresh() = refreshScope.launch {
@@ -48,34 +47,32 @@ private fun AudioList(
 
     val pullRefreshState = rememberPullRefreshState(refreshing, ::refresh)
 
-    LaunchedEffect(
-        true
-    ) {
-        refresh()
+    /**
+     * We don't care about specific conditions for the effect to re-run, only that navigating back
+     * shouldn't re-launch it.
+     */
+    LaunchedEffect(Unit) {
+        if (state.value.audioEntries.isEmpty()) {
+            refresh()
+        }
     }
 
     Box(Modifier.pullRefresh(pullRefreshState)) {
         LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(
-                    color = Color.Cyan
-                )
+            modifier = Modifier.fillMaxSize()
         ) {
             items(
                 items = state.value.audioEntries,
             ) { item ->
 
-                AudioListItem(
-                    audioEntry = item,
+                AudioListItem(audioEntry = item,
                     rating = state.value.audioRatings[item.title] ?: 0,
                     isFavorite = state.value.favoriteAudioTitle == item.title,
                     onItemClicked = { navigateToAudioDetail(item) },
                     onFavoriteClicked = { addedAsFavorite ->
                         dispatcher(AudioListActions.UpdateFavoriteAudio(if (addedAsFavorite) item.title else ""))
                     },
-                    onStarClicked = { dispatcher(AudioListActions.UpdateRating(item.title, it)) }
-                )
+                    onStarClicked = { dispatcher(AudioListActions.UpdateRating(item.title, it)) })
             }
         }
 

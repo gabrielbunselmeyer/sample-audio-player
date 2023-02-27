@@ -1,4 +1,4 @@
-package com.skoove.challenge.ui
+package com.skoove.challenge.ui.audiodetail
 
 import android.media.AudioAttributes
 import android.media.MediaPlayer
@@ -91,7 +91,9 @@ abstract class MediaPlayerController : ViewModel() {
     }
 
     protected fun seekMediaPlayer(newPosition: Int) {
-        mediaPlayer.seekTo(newPosition)
+        if (mediaPlayerState.value != MediaPlayerState.None) {
+            mediaPlayer.seekTo(newPosition)
+        }
     }
 }
 

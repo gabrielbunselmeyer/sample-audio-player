@@ -1,13 +1,11 @@
 package com.skoove.challenge.ui.audiolist
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.skoove.challenge.data.Repository
 import com.skoove.challenge.ui.State
 import com.skoove.challenge.utils.extension.mutate
-import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -19,14 +17,6 @@ class AudioListViewModel(
 ) : AndroidViewModel(application) {
 
     val state = mutableState.asStateFlow()
-
-    private val repositoryCoroutinesExceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        val errorMessage = "Something went wrong when fetching from the GitHub API!"
-        throwable.printStackTrace()
-        throwable.message?.let {
-            Log.d("MAINVIEWMODEL_ERROR", it)
-        }
-    }
 
     fun dispatch(action: AudioListActions) {
         when (action) {
@@ -47,7 +37,7 @@ class AudioListViewModel(
     }
 
     private fun fetchAudioEntries() {
-        viewModelScope.launch(repositoryCoroutinesExceptionHandler) {
+        viewModelScope.launch {
             skooveRepository.getAudioEntries().data?.data?.let {
                 mutableState.mutate {
                     copy(audioEntries = it)
