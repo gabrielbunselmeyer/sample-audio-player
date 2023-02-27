@@ -27,3 +27,9 @@ To fix that and add in more meat, I'd expand on the Repository aspect. Currently
 Which leads us to the final point: persistency. Nothing here is persisting correctly, considering ratings and favorites are just set withint `State`. Not even configuration changes are handled well at this point, which should definitely be fixed.
 
 All in all, a pretty barebones structure/final result.
+
+### video sample
+
+(No audio, but the emulator is playing :))
+
+https://user-images.githubusercontent.com/29930410/221484818-e5773239-b9df-4e33-a238-8179ed7b9c42.mp4
