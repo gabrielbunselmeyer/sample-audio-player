@@ -6,6 +6,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import com.skoove.challenge.ui.MediaPlayerState
 import com.skoove.challenge.ui.component.AudioDetailItem
+import kotlinx.coroutines.flow.collect
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -17,6 +18,7 @@ fun AudioDetailScreen(
         audioTitle = audioTitle,
         uiState = audioDetailViewModel.state.collectAsState(),
         mediaPlayerState = audioDetailViewModel.mediaPlayerState.collectAsState(),
+        mediaPlayerCurrentTime = audioDetailViewModel.mediaPlayerCurrentTime.collectAsState(initial = 0),
         dispatcher = audioDetailViewModel::dispatch
     )
 }
@@ -26,7 +28,8 @@ private fun AudioDetail(
     audioTitle: String,
     uiState: State<com.skoove.challenge.ui.State>,
     mediaPlayerState: State<MediaPlayerState>,
-    dispatcher: AudioDetailDispatcher
+    mediaPlayerCurrentTime: State<Int>,
+    dispatcher: AudioDetailDispatcher,
 ) {
 
     val audioEntry = uiState.value.audioEntries.firstOrNull { audio -> audio.title == audioTitle }
@@ -40,6 +43,7 @@ private fun AudioDetail(
     AudioDetailItem(
         audioEntry = audioEntry,
         mediaPlayerState = mediaPlayerState,
+        mediaPlayerCurrentTime = mediaPlayerCurrentTime,
         isFavorite = audioEntry.title === uiState.value.favoriteAudioTitle,
         rating = 0,
         onStarClicked = { },

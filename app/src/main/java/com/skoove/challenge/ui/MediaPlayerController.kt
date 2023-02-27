@@ -3,9 +3,8 @@ package com.skoove.challenge.ui
 import android.media.AudioAttributes
 import android.media.MediaPlayer
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.*
 
 /**
  * Media player controller wrapped as a ViewModel exposing its current state
@@ -16,6 +15,18 @@ abstract class MediaPlayerController : ViewModel() {
 
     private val _mediaPlayerState = MutableStateFlow<MediaPlayerState>(MediaPlayerState.None)
     val mediaPlayerState = _mediaPlayerState.asStateFlow()
+
+    val mediaPlayerCurrentTime: Flow<Int> = flow {
+        while (mediaPlayerState.value != MediaPlayerState.Finished) {
+            if (mediaPlayerState.value == MediaPlayerState.None) {
+                emit(0)
+            } else {
+                emit(mediaPlayer.currentPosition)
+            }
+
+            delay(100)
+        }
+    }
 
     private val attributes =
         AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build()

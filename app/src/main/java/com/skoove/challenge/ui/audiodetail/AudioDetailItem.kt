@@ -29,6 +29,7 @@ import com.skydoves.landscapist.coil.CoilImage
 fun AudioDetailItem(
     audioEntry: AudioModel,
     mediaPlayerState: State<MediaPlayerState>,
+    mediaPlayerCurrentTime: State<Int>,
     isFavorite: Boolean,
     rating: Int,
     onStarClicked: (rating: Int) -> Unit,
@@ -39,8 +40,6 @@ fun AudioDetailItem(
 
     val isAudioPlaying = mediaPlayerState.value == MediaPlayerState.Playing
     val isMediaPlayerLoading = mediaPlayerState.value == MediaPlayerState.None
-    var currentMediaTime by remember { mutableStateOf(0f) }
-
 
     Column(
         modifier = Modifier.padding(16.dp),
@@ -105,20 +104,18 @@ fun AudioDetailItem(
             modifier = Modifier.wrapContentWidth(),
             textAlign = TextAlign.Center,
             text = "${
-                currentMediaTime.toInt().timeStampToDuration()
+                mediaPlayerCurrentTime.value.timeStampToDuration()
             } / ${audioEntry.totalDurationMs.timeStampToDuration()}",
             color = MaterialTheme.colors.onSurface
         )
 
         // Audio Slider
         Slider(
-            value = currentMediaTime,
+            value = mediaPlayerCurrentTime.value.toFloat(),
             onValueChange = { time ->
-                currentMediaTime = time
                 onSliderValueChanged(time)
             },
             valueRange = 0f..audioEntry.totalDurationMs.toFloat(),
-            steps = 1000,
             colors = SliderDefaults.colors(
                 thumbColor = MaterialTheme.colors.secondary,
                 activeTickColor = MaterialTheme.colors.secondary,
