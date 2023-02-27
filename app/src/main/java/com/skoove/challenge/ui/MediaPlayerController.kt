@@ -12,22 +12,14 @@ import kotlinx.coroutines.flow.update
  */
 abstract class MediaPlayerController : ViewModel() {
 
-    // object of media player
     private val mediaPlayer = MediaPlayer()
 
-    // sealed class for handling different media player states
     private val _mediaPlayerState = MutableStateFlow<MediaPlayerState>(MediaPlayerState.None)
     val mediaPlayerState = _mediaPlayerState.asStateFlow()
 
-    // Media player attributes
-    private val attributes = AudioAttributes
-        .Builder()
-        .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-        .build()
+    private val attributes =
+        AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build()
 
-    /**
-     * Media player click handler
-     */
     protected fun audioSelected(url: String) {
         when (mediaPlayerState.value) {
             MediaPlayerState.Started -> pauseMediaPlayer()
@@ -38,23 +30,17 @@ abstract class MediaPlayerController : ViewModel() {
         }
     }
 
-    /**
-     * Initialize media player with given url
-     */
-    protected fun initializeMediaPlayer(url: String) {
+    private fun initializeMediaPlayer(url: String) {
         try {
             mediaPlayer.setAudioAttributes(attributes)
             mediaPlayer.setDataSource(url)
-            mediaPlayer.prepare()
+            mediaPlayer.prepareAsync()
             _mediaPlayerState.update { MediaPlayerState.Initialized }
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
 
-    /**
-     * Start media player
-     */
     protected fun startMediaPlayer() {
         try {
             mediaPlayer.start()
@@ -64,9 +50,6 @@ abstract class MediaPlayerController : ViewModel() {
         }
     }
 
-    /**
-     * Pause media player
-     */
     protected fun pauseMediaPlayer() {
         if (mediaPlayer.isPlaying) {
             mediaPlayer.pause()
@@ -74,10 +57,6 @@ abstract class MediaPlayerController : ViewModel() {
         }
     }
 
-
-    /**
-     * Release media player
-     */
     protected fun releaseMediaPlayer() {
         mediaPlayer.stop()
         mediaPlayer.release()
@@ -85,9 +64,6 @@ abstract class MediaPlayerController : ViewModel() {
 
     }
 
-    /**
-     * Seek to new position
-     */
     protected fun seekMediaPlayer(newPosition: Int) {
         mediaPlayer.seekTo(newPosition)
     }
