@@ -1,6 +1,9 @@
 package com.skoove.challenge.ui.audiodetail
 
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
 import com.skoove.challenge.ui.MediaPlayerState
 import com.skoove.challenge.ui.component.AudioDetailItem
 import org.koin.androidx.compose.koinViewModel
@@ -29,20 +32,21 @@ private fun AudioDetail(
     val audioEntry = uiState.value.audioEntries.firstOrNull { audio -> audio.title == audioTitle }
         ?: throw Exception()
 
-    var currentSeekerTime by remember { mutableStateOf(0f) }
+    // We want this to only run once to start preparing the MediaPlayer as it takes a while.
+    LaunchedEffect(true) {
+        dispatcher(AudioDetailActions.InitializeMediaPlayer(audioEntry.source))
+    }
 
-    AudioDetailItem(audio = audioEntry,
-        isAudioPlaying = mediaPlayerState.value == MediaPlayerState.Started,
-        isPlayerLoaded = mediaPlayerState.value != MediaPlayerState.None,
+    AudioDetailItem(
+        audioEntry = audioEntry,
+        mediaPlayerState = mediaPlayerState,
         isFavorite = audioEntry.title === uiState.value.favoriteAudioTitle,
-        playingTime = currentSeekerTime,
-        duration = audioEntry.totalDurationMs,
         rating = 0,
         onStarClicked = { },
         onFavoriteClicked = { addedAsFavorite ->
             dispatcher(AudioDetailActions.UpdateFavoriteAudio(if (addedAsFavorite) audioEntry.title else ""))
         },
-        onAudioSelected = { dispatcher(AudioDetailActions.SelectAudio(it)) },
-        onSliderValueChanged = { currentSeekerTime = it },
-        updateMediaTime = { dispatcher(AudioDetailActions.SeekInAudio(it)) })
+        onAudioSelected = { },
+        onSliderValueChanged = { },
+        updateMediaTime = { })
 }

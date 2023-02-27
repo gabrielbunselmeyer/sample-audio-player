@@ -19,17 +19,14 @@ class AudioDetailViewModel(
                     favoriteAudioTitle = action.title
                 )
             }
-            is AudioDetailActions.SelectAudio -> audioSelected(action.source)
-            is AudioDetailActions.SeekInAudio -> seekMediaPlayer(action.time)
 
-            AudioDetailActions.StartAudio -> {
-                startMediaPlayer()
+            is AudioDetailActions.InitializeMediaPlayer -> {
+                initializeMediaPlayer(action.source)
             }
-            AudioDetailActions.PauseAudio -> {
-                pauseMediaPlayer()
-            }
-            AudioDetailActions.ReleaseMediaPlayer -> TODO()
 
+            AudioDetailActions.AudioPressed -> {
+                audioPressed()
+            }
         }
     }
 
@@ -37,11 +34,8 @@ class AudioDetailViewModel(
 
 sealed class AudioDetailActions {
     data class UpdateFavoriteAudio(val title: String) : AudioDetailActions()
-    data class SelectAudio(val source: String) : AudioDetailActions()
-    data class SeekInAudio(val time: Int) : AudioDetailActions()
-    object StartAudio : AudioDetailActions()
-    object PauseAudio : AudioDetailActions()
-    object ReleaseMediaPlayer : AudioDetailActions()
+    data class InitializeMediaPlayer(val source: String) : AudioDetailActions()
+    object AudioPressed : AudioDetailActions()
 }
 
 typealias AudioDetailDispatcher = (AudioDetailActions) -> Unit

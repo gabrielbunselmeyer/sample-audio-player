@@ -1,6 +1,7 @@
 package com.skoove.challenge.data.response
 
 import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 
@@ -11,7 +12,7 @@ import kotlinx.serialization.Serializable
 @Parcelize
 data class AudioModel(
     val title: String,
-    val audio: String,
+    @SerializedName("audio") val source: String,
     val cover: String,
     val totalDurationMs: Int
 ) : Parcelable

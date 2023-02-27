@@ -22,21 +22,11 @@ abstract class MediaPlayerController : ViewModel() {
 
     init {
         mediaPlayer.setOnPreparedListener {
-            _mediaPlayerState.update { MediaPlayerState.Initialized }
+            _mediaPlayerState.update { MediaPlayerState.Prepared }
         }
     }
 
-    protected fun audioSelected(url: String) {
-        when (mediaPlayerState.value) {
-            MediaPlayerState.Started -> pauseMediaPlayer()
-            MediaPlayerState.Paused, MediaPlayerState.Initialized, MediaPlayerState.Finished -> startMediaPlayer()
-            else -> {
-                initializeMediaPlayer(url)
-            }
-        }
-    }
-
-    private fun initializeMediaPlayer(url: String) {
+    protected fun initializeMediaPlayer(url: String) {
         try {
             mediaPlayer.setAudioAttributes(attributes)
             mediaPlayer.setDataSource(url)
@@ -44,19 +34,27 @@ abstract class MediaPlayerController : ViewModel() {
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
     }
 
-    protected fun startMediaPlayer() {
+    protected fun audioPressed() {
+        when (mediaPlayerState.value) {
+            MediaPlayerState.Playing -> pauseAudio()
+            MediaPlayerState.Paused, MediaPlayerState.Prepared, MediaPlayerState.Finished -> playAudio()
+            MediaPlayerState.None -> { /* Do nothing as MediaPlayer is initializing. */
+            }
+        }
+    }
+
+    private fun playAudio() {
         try {
             mediaPlayer.start()
-            _mediaPlayerState.update { MediaPlayerState.Started }
+            _mediaPlayerState.update { MediaPlayerState.Playing }
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
 
-    protected fun pauseMediaPlayer() {
+    private fun pauseAudio() {
         if (mediaPlayer.isPlaying) {
             mediaPlayer.pause()
             _mediaPlayerState.update { MediaPlayerState.Paused }
@@ -82,8 +80,8 @@ abstract class MediaPlayerController : ViewModel() {
  */
 sealed class MediaPlayerState {
     object None : MediaPlayerState()
-    object Initialized : MediaPlayerState()
-    object Started : MediaPlayerState()
+    object Prepared : MediaPlayerState()
+    object Playing : MediaPlayerState()
     object Paused : MediaPlayerState()
     object Finished : MediaPlayerState()
 }
