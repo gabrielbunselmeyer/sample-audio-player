@@ -33,6 +33,7 @@ private fun AudioDetail(
 
     AudioDetailItem(audio = audioEntry,
         isAudioPlaying = mediaPlayerState.value == MediaPlayerState.Started,
+        isPlayerLoaded = mediaPlayerState.value != MediaPlayerState.None,
         isFavorite = audioEntry.title === uiState.value.favoriteAudioTitle,
         playingTime = currentSeekerTime,
         duration = audioEntry.totalDurationMs,

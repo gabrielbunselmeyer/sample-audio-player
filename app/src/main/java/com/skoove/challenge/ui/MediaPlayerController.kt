@@ -20,6 +20,12 @@ abstract class MediaPlayerController : ViewModel() {
     private val attributes =
         AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build()
 
+    init {
+        mediaPlayer.setOnPreparedListener {
+            _mediaPlayerState.update { MediaPlayerState.Initialized }
+        }
+    }
+
     protected fun audioSelected(url: String) {
         when (mediaPlayerState.value) {
             MediaPlayerState.Started -> pauseMediaPlayer()
@@ -35,10 +41,10 @@ abstract class MediaPlayerController : ViewModel() {
             mediaPlayer.setAudioAttributes(attributes)
             mediaPlayer.setDataSource(url)
             mediaPlayer.prepareAsync()
-            _mediaPlayerState.update { MediaPlayerState.Initialized }
         } catch (e: Exception) {
             e.printStackTrace()
         }
+
     }
 
     protected fun startMediaPlayer() {

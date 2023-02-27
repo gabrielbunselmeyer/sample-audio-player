@@ -4,11 +4,9 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Slider
-import androidx.compose.material.SliderDefaults
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,6 +29,7 @@ fun AudioDetailItem(
     audio: AudioModel,
     isAudioPlaying: Boolean,
     isFavorite: Boolean,
+    isPlayerLoaded: Boolean,
     playingTime: Float,
     duration: Int,
     rating: Int,
@@ -40,6 +39,11 @@ fun AudioDetailItem(
     onSliderValueChanged: (value: Float) -> Unit,
     updateMediaTime: (updatedTime: Int) -> Unit
 ) {
+
+    // We only want this to launch once.
+    LaunchedEffect(true) {
+        onAudioSelected(audio.audio)
+    }
 
     Column(
         modifier = Modifier.padding(16.dp),
@@ -52,7 +56,9 @@ fun AudioDetailItem(
                     interactionSource = remember { MutableInteractionSource() },
                     indication = null
                 ) {
-                    onAudioSelected(audio.audio)
+                    if (isPlayerLoaded) {
+                        onAudioSelected(audio.audio)
+                    }
                 },
             contentAlignment = Alignment.Center
         ) {
@@ -71,21 +77,25 @@ fun AudioDetailItem(
                     .fillMaxWidth()
             )
 
-            // Media Player Controller Icons
-            Image(
-                painter = painterResource(id = if (isAudioPlaying) R.drawable.ic_pause else R.drawable.ic_play),
-                contentDescription = stringResource(id = R.string.contentDescription_audio_is_favorite),
-                modifier = Modifier.size(120.dp)
-            )
+            if (isPlayerLoaded) {
+                // Media Player Controller Icons
+                Image(
+                    painter = painterResource(id = if (isAudioPlaying) R.drawable.ic_pause else R.drawable.ic_play),
+                    contentDescription = stringResource(id = R.string.contentDescription_audio_is_favorite),
+                    modifier = Modifier.size(120.dp)
+                )
 
-            // audio favorite status element
-            FavoriteElement(modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(16.dp),
-                favoriteState = isFavorite,
-                onClick = {
-                    onFavoriteClicked(!isFavorite)
-                })
+                // audio favorite status element
+                FavoriteElement(modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(16.dp),
+                    favoriteState = isFavorite,
+                    onClick = {
+                        onFavoriteClicked(!isFavorite)
+                    })
+            } else {
+                CircularProgressIndicator()
+            }
         }
 
         Spacer(modifier = Modifier.size(32.dp))
