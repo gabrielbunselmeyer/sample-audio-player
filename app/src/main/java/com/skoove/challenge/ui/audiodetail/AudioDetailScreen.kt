@@ -47,6 +47,6 @@ private fun AudioDetail(
             dispatcher(AudioDetailActions.UpdateFavoriteAudio(if (addedAsFavorite) audioEntry.title else ""))
         },
         onAudioControlClicked = { dispatcher(AudioDetailActions.AudioControlClicked) },
-        onSliderValueChanged = { },
-        updateMediaTime = { })
+        onSliderValueChanged = { dispatcher(AudioDetailActions.SeekMediaPlayerTime(it)) },
+    )
 }

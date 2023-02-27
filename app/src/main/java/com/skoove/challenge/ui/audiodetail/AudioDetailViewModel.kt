@@ -21,6 +21,7 @@ class AudioDetailViewModel(
             }
 
             is AudioDetailActions.InitializeMediaPlayer -> initializeMediaPlayer(action.source)
+            is AudioDetailActions.SeekMediaPlayerTime -> seekMediaPlayer(action.time.toInt())
             AudioDetailActions.AudioControlClicked -> audioControlClicked()
         }
     }
@@ -30,6 +31,7 @@ class AudioDetailViewModel(
 sealed class AudioDetailActions {
     data class UpdateFavoriteAudio(val title: String) : AudioDetailActions()
     data class InitializeMediaPlayer(val source: String) : AudioDetailActions()
+    data class SeekMediaPlayerTime(val time: Float) : AudioDetailActions()
     object AudioControlClicked : AudioDetailActions()
 }
 

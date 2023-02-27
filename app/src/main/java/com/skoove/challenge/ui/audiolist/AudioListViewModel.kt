@@ -2,7 +2,6 @@ package com.skoove.challenge.ui.audiolist
 
 import android.app.Application
 import android.util.Log
-import androidx.compose.runtime.MutableState
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.skoove.challenge.data.Repository
@@ -14,7 +13,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class AudioListViewModel(
-    application: Application, private val skooveRepository: Repository, private val mutableState: MutableStateFlow<State>
+    application: Application,
+    private val skooveRepository: Repository,
+    private val mutableState: MutableStateFlow<State>
 ) : AndroidViewModel(application) {
 
     val state = mutableState.asStateFlow()
@@ -29,7 +30,9 @@ class AudioListViewModel(
 
     fun dispatch(action: AudioListActions) {
         when (action) {
-            is AudioListActions.FetchAudioEntries -> { fetchAudioEntries() }
+            is AudioListActions.FetchAudioEntries -> {
+                fetchAudioEntries()
+            }
             is AudioListActions.UpdateFavoriteAudio -> mutableState.mutate { copy(favoriteAudioTitle = action.title) }
         }
     }

@@ -6,9 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -37,11 +35,12 @@ fun AudioDetailItem(
     onFavoriteClicked: (favorite: Boolean) -> Unit,
     onAudioControlClicked: (source: String) -> Unit,
     onSliderValueChanged: (value: Float) -> Unit,
-    updateMediaTime: (updatedTime: Int) -> Unit
 ) {
 
     val isAudioPlaying = mediaPlayerState.value == MediaPlayerState.Playing
     val isMediaPlayerLoading = mediaPlayerState.value == MediaPlayerState.None
+    var currentMediaTime by remember { mutableStateOf(0f) }
+
 
     Column(
         modifier = Modifier.padding(16.dp),
@@ -77,9 +76,10 @@ fun AudioDetailItem(
                 modifier = Modifier.size(120.dp)
             )
 
-            FavoriteElement(modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(16.dp),
+            FavoriteElement(
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(16.dp),
                 favoriteState = isFavorite,
                 onClick = {
                     onFavoriteClicked(!isFavorite)
@@ -105,30 +105,36 @@ fun AudioDetailItem(
             modifier = Modifier.wrapContentWidth(),
             textAlign = TextAlign.Center,
             text = "${
-                0.toInt().timeStampToDuration()
+                currentMediaTime.toInt().timeStampToDuration()
             } / ${audioEntry.totalDurationMs.timeStampToDuration()}",
             color = MaterialTheme.colors.onSurface
         )
 
         // Audio Slider
-        Slider(value = 0f, onValueChange = {
-            onSliderValueChanged(it)
-        }, valueRange = 0f..audioEntry.totalDurationMs.toFloat(), onValueChangeFinished = {
-            updateMediaTime((0f * 1000).toInt())
-        }, steps = 1000, colors = SliderDefaults.colors(
-            thumbColor = MaterialTheme.colors.secondary,
-            activeTickColor = MaterialTheme.colors.secondary,
-            inactiveTickColor = MaterialTheme.colors.onError,
-        )
+        Slider(
+            value = currentMediaTime,
+            onValueChange = { time ->
+                currentMediaTime = time
+                onSliderValueChanged(time)
+            },
+            valueRange = 0f..audioEntry.totalDurationMs.toFloat(),
+            steps = 1000,
+            colors = SliderDefaults.colors(
+                thumbColor = MaterialTheme.colors.secondary,
+                activeTickColor = MaterialTheme.colors.secondary,
+                inactiveTickColor = MaterialTheme.colors.onError,
+            )
         )
 
         Spacer(modifier = Modifier.size(32.dp))
 
-        RatingStars(modifier = Modifier.padding(8.dp),
+        RatingStars(
+            modifier = Modifier.padding(8.dp),
             rating = rating,
             starSize = 64,
             onStarClicked = { index ->
                 onStarClicked(index + 1)
-            })
+            }
+        )
     }
 }
