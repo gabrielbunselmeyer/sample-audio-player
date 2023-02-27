@@ -6,7 +6,6 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import com.skoove.challenge.ui.MediaPlayerState
 import com.skoove.challenge.ui.component.AudioDetailItem
-import kotlinx.coroutines.flow.collect
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -45,8 +44,8 @@ private fun AudioDetail(
         mediaPlayerState = mediaPlayerState,
         mediaPlayerCurrentTime = mediaPlayerCurrentTime,
         isFavorite = audioEntry.title === uiState.value.favoriteAudioTitle,
-        rating = 0,
-        onStarClicked = { },
+        rating = uiState.value.audioRatings[audioEntry.title] ?: 0,
+        onStarClicked = { dispatcher(AudioDetailActions.UpdateRating(audioEntry.title, it)) },
         onFavoriteClicked = { addedAsFavorite ->
             dispatcher(AudioDetailActions.UpdateFavoriteAudio(if (addedAsFavorite) audioEntry.title else ""))
         },

@@ -33,6 +33,15 @@ class AudioListViewModel(
             is AudioListActions.FetchAudioEntries -> {
                 fetchAudioEntries()
             }
+
+            is AudioListActions.UpdateRating -> {
+                mutableState.mutate {
+                    val updatedRatings =
+                        audioRatings.toMutableMap().apply { this[action.title] = action.stars }
+                    copy(audioRatings = updatedRatings)
+                }
+            }
+
             is AudioListActions.UpdateFavoriteAudio -> mutableState.mutate { copy(favoriteAudioTitle = action.title) }
         }
     }
@@ -49,8 +58,9 @@ class AudioListViewModel(
 }
 
 sealed class AudioListActions {
-    object FetchAudioEntries : AudioListActions()
     data class UpdateFavoriteAudio(val title: String) : AudioListActions()
+    data class UpdateRating(val title: String, val stars: Int) : AudioListActions()
+    object FetchAudioEntries : AudioListActions()
 }
 
 typealias AudioListDispatcher = (AudioListActions) -> Unit

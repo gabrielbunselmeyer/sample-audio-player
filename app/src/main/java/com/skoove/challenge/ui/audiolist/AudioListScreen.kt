@@ -13,7 +13,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.skoove.challenge.data.response.AudioModel
-import com.skoove.challenge.ui.component.AudioListItem
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
@@ -67,12 +66,16 @@ private fun AudioList(
                 items = state.value.audioEntries,
             ) { item ->
 
-                AudioListItem(audio = item,
+                AudioListItem(
+                    audioEntry = item,
+                    rating = state.value.audioRatings[item.title] ?: 0,
                     isFavorite = state.value.favoriteAudioTitle == item.title,
                     onItemClicked = { navigateToAudioDetail(item) },
                     onFavoriteClicked = { addedAsFavorite ->
                         dispatcher(AudioListActions.UpdateFavoriteAudio(if (addedAsFavorite) item.title else ""))
-                    })
+                    },
+                    onStarClicked = { dispatcher(AudioListActions.UpdateRating(item.title, it)) }
+                )
             }
         }
 

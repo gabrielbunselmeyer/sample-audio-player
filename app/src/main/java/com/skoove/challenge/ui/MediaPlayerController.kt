@@ -77,6 +77,12 @@ abstract class MediaPlayerController : ViewModel() {
         }
     }
 
+    /**
+     * The correct way of using [MediaPlayer.release] seems to be calling it whenever you finish
+     * playing a given piece of media, so it doesn't hog on to the media resource.
+     * BUT if you do that, it takes a very long time to create a new instance the next time you want
+     * to use MediaPlayer. It's... weird.
+     */
     protected fun releaseMediaPlayer() {
         mediaPlayer.stop()
         mediaPlayer.release()

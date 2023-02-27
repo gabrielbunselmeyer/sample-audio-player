@@ -1,4 +1,4 @@
-package com.skoove.challenge.ui.component
+package com.skoove.challenge.ui.audiolist
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -15,6 +15,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.skoove.challenge.R
 import com.skoove.challenge.data.response.AudioModel
+import com.skoove.challenge.ui.component.FavoriteElement
+import com.skoove.challenge.ui.component.RatingStars
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.coil.CoilImage
 
@@ -23,11 +25,12 @@ import com.skydoves.landscapist.coil.CoilImage
  */
 @Composable
 fun AudioListItem(
-    audio: AudioModel,
-    rating: Int = 3,
+    audioEntry: AudioModel,
+    rating: Int,
     isFavorite: Boolean = false,
     onFavoriteClicked: (newState: Boolean) -> Unit,
-    onItemClicked: () -> Unit
+    onItemClicked: () -> Unit,
+    onStarClicked: (rating: Int) -> Unit,
 ) {
 
 
@@ -43,7 +46,7 @@ fun AudioListItem(
 
             // Cover image
             CoilImage(
-                imageModel = audio.cover,
+                imageModel = audioEntry.cover,
                 contentDescription = stringResource(id = R.string.contentDescription_audio_cover),
                 shimmerParams = ShimmerParams(
                     baseColor = MaterialTheme.colors.background,
@@ -55,8 +58,9 @@ fun AudioListItem(
                     .fillMaxWidth()
             )
 
-            // Rating element
-            RatingStars(modifier = Modifier.padding(8.dp), rating, onStarClicked = {})
+            RatingStars(modifier = Modifier.padding(8.dp),
+                rating,
+                onStarClicked = { onStarClicked(it + 1) })
         }
 
         // Title and favorite section
@@ -74,7 +78,7 @@ fun AudioListItem(
             Text(
                 modifier = Modifier.wrapContentWidth(),
                 textAlign = TextAlign.Center,
-                text = audio.title.toString(),
+                text = audioEntry.title.toString(),
                 color = MaterialTheme.colors.onSurface
             )
 
